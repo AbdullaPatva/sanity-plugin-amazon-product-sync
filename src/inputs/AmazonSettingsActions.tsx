@@ -10,14 +10,14 @@ export type SettingsActionsInputProps = FormInputProps & {
 
 export function AmazonSettingsActions(props: SettingsActionsInputProps) {
   const {schemaType, document} = props as any
-  const {push} = useToast()
+  const toast = useToast()
   const [loading, setLoading] = useState(false)
 
   const asinNumber: string | undefined = document?.asinNumber
 
   const handleTestApiConnection = useCallback(async () => {
     if (!asinNumber) {
-      push({status: 'warning', title: 'Enter an ASIN first', description: 'Provide a test ASIN in settings.'})
+      toast.push({status: 'warning', title: 'Enter an ASIN first', description: 'Provide a test ASIN in settings.'})
       return
     }
 
@@ -30,32 +30,32 @@ export function AmazonSettingsActions(props: SettingsActionsInputProps) {
       })
 
       if (res.ok) {
-        push({status: 'success', title: 'API connection successful'})
+        toast.push({status: 'success', title: 'API connection successful'})
       } else {
-        push({status: 'error', title: 'API connection failed'})
+        toast.push({status: 'error', title: 'API connection failed'})
       }
     } catch (err) {
-      push({status: 'error', title: 'API connection failed'})
+      toast.push({status: 'error', title: 'API connection failed'})
     } finally {
       setLoading(false)
     }
-  }, [asinNumber, push])
+  }, [asinNumber, toast])
 
   const handleClearCache = useCallback(async () => {
     setLoading(true)
     try {
       const res = await fetch('/api/amazon/clear-cache', {method: 'POST', headers: {'Content-Type': 'application/json'}})
       if (res.ok) {
-        push({status: 'success', title: 'Cache cleared'})
+        toast.push({status: 'success', title: 'Cache cleared'})
       } else {
-        push({status: 'error', title: 'Failed to clear cache'})
+        toast.push({status: 'error', title: 'Failed to clear cache'})
       }
     } catch (err) {
-      push({status: 'error', title: 'Failed to clear cache'})
+      toast.push({status: 'error', title: 'Failed to clear cache'})
     } finally {
       setLoading(false)
     }
-  }, [push])
+  }, [toast])
 
   return (
     <Card padding={3} tone="primary" radius={2} shadow={1}>

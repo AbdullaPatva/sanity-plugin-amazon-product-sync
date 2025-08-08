@@ -1,4 +1,5 @@
 import { defineType, defineField } from 'sanity';
+import { AmazonSettingsActions } from '../inputs/AmazonSettingsActions';
 export const amazonSettingsSchema = defineType({
     name: 'amazon.settings',
     title: 'Amazon Settings',
@@ -121,10 +122,7 @@ export const amazonSettingsSchema = defineType({
             title: 'Actions',
             type: 'string',
             components: {
-                input: (props) => {
-                    const { AmazonSettingsActions } = require('../inputs/AmazonSettingsActions');
-                    return AmazonSettingsActions(props);
-                },
+                input: AmazonSettingsActions,
             },
             options: { layout: 'none' },
         }),
