@@ -1,10 +1,10 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useCallback, useState } from 'react';
-import { Box, Button, Card, Code, Flex, Grid, Heading, Inline, Label, Radio, Spinner, Stack, Text, TextInput, TextArea } from '@sanity/ui';
-import { useClient, useToast } from 'sanity';
+import { Box, Button, Card, Code, Flex, Grid, Heading, Inline, Label, Radio, Spinner, Stack, Text, TextInput, TextArea, useToast } from '@sanity/ui';
+import { useClient } from 'sanity';
 export function AmazonTool() {
     const client = useClient({ apiVersion: '2025-05-01' });
-    const { toast } = useToast();
+    const toast = useToast();
     const [asin, setAsin] = useState('');
     const [bulkAsins, setBulkAsins] = useState('');
     const [loading, setLoading] = useState(false);

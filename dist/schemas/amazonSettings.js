@@ -40,18 +40,21 @@ export const amazonSettingsSchema = defineType({
             name: 'accessKey',
             title: 'PA-API Access Key',
             type: 'string',
+            description: 'Enter your Amazon API Access Key to authenticate API requests.',
             validation: (r) => r.required(),
         }),
         defineField({
             name: 'secretKey',
             title: 'PA-API Secret Key',
             type: 'string',
+            description: 'Enter your Amazon API Secret Key for secure access to the API.',
             validation: (r) => r.required(),
         }),
         defineField({
             name: 'partnerTag',
             title: 'Associate Tag (Partner Tag)',
             type: 'string',
+            description: 'Enter your Amazon Partner Tag for tracking and attribution in the affiliate program.',
             validation: (r) => r.required(),
         }),
         defineField({

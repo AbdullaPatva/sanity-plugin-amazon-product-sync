@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react'
-import {Box, Button, Card, Code, Flex, Grid, Heading, Inline, Label, Radio, Spinner, Stack, Text, TextInput, TextArea} from '@sanity/ui'
-import {useClient, useToast} from 'sanity'
+import {Box, Button, Card, Code, Flex, Grid, Heading, Inline, Label, Radio, Spinner, Stack, Text, TextInput, TextArea, useToast} from '@sanity/ui'
+import {useClient} from 'sanity'
 
 type ProductData = {
   asin: string
@@ -21,7 +21,7 @@ type ImportSettings = {
 
 export function AmazonTool() {
   const client = useClient({apiVersion: '2025-05-01'})
-  const {toast} = useToast()
+  const toast = useToast()
   const [asin, setAsin] = useState('')
   const [bulkAsins, setBulkAsins] = useState('')
   const [loading, setLoading] = useState(false)
