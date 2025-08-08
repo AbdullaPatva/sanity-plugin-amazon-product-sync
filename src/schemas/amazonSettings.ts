@@ -4,6 +4,7 @@ export const amazonSettingsSchema = defineType({
   name: 'amazon.settings',
   title: 'Amazon Settings',
   type: 'document',
+  singleton: true,
   fields: [
     defineField({
       name: 'region',
