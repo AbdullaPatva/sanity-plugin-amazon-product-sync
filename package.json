@@ -1,0 +1,59 @@
+{
+  "name": "sanity-plugin-amazon-products",
+  "version": "0.1.0",
+  "description": "Sanity Studio plugin to fetch and embed Amazon products by ASIN (PA-API v5), with settings tool and document actions.",
+  "keywords": [
+    "sanity",
+    "sanity-plugin",
+    "amazon",
+    "asin",
+    "product advertising api",
+    "ecommerce"
+  ],
+  "license": "MIT",
+  "author": "Your Name <you@example.com>",
+  "homepage": "https://github.com/your-org/sanity-plugin-amazon-products",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/sanity-plugin-amazon-products.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/sanity-plugin-amazon-products/issues"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "functions"
+  ],
+  "scripts": {
+    "build": "plugin-kit build",
+    "dev": "plugin-kit dev",
+    "clean": "rimraf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "sanity": ">=3.86.0 <5",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "dependencies": {
+    "@sanity/ui": "^2.6.0",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@sanity/plugin-kit": "^4.0.0",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
+
