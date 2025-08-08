@@ -4,7 +4,6 @@ export const amazonProductSchema = defineType({
   name: 'amazon.product',
   title: 'Amazon Product',
   type: 'document',
-  singleton: true,
   groups: [
     {name: 'product', title: 'Product'},
     {name: 'pricing', title: 'Pricing'},
