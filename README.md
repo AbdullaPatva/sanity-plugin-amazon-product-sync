@@ -1,15 +1,14 @@
 # Sanity Plugin: Amazon Products
 
-A comprehensive Sanity Studio plugin for fetching and managing Amazon products using the Amazon Product Advertising API. This plugin provides complete feature parity with the WordPress "Sync Product From Amazon" plugin while leveraging modern Sanity development practices.
+A comprehensive Sanity Studio plugin for fetching and managing Amazon products using the Amazon Product Advertising API. This plugin provides a complete solution for integrating Amazon product data into your Sanity Studio with modern development practices.
 
 ## Features
 
-- **Complete WordPress Plugin Parity**: All 17 fields from the original WordPress plugin implemented
 - **Studio Tools**: Custom tools for single product and bulk import functionality
 - **Custom ASIN Input**: Enhanced input component with fetch functionality
 - **Portable Text Block**: Native Sanity content block for embedding products
 - **Serverless Functions**: Scalable API integration with PA-API v5
-- **Settings Management**: Comprehensive settings schema with all WordPress options
+- **Settings Management**: Comprehensive settings schema with API configuration
 - **Help System**: Built-in documentation and troubleshooting guide
 - **TypeScript Support**: Full type safety throughout the plugin
 
@@ -79,7 +78,7 @@ export default defineConfig({
 
 ### 2. Add Schemas to Your Studio
 
-The plugin automatically registers its schemas, but you can also import them manually:
+The plugin automatically registers its schemas, but you can also import them manually if needed:
 
 ```typescript
 import {
@@ -214,16 +213,7 @@ Custom input type for ASIN fields with fetch functionality.
 ### `amazon.productBlock`
 Portable Text block for embedding products in content.
 
-## WordPress Plugin Comparison
 
-This plugin provides complete feature parity with the WordPress "Sync Product From Amazon" plugin:
-
-| **WordPress Feature** | **Sanity Implementation** | **Status** |
-|----------------------|---------------------------|------------|
-| API Settings (9 fields) | ✅ Complete | **Complete** |
-| Field Settings (5 fields) | ✅ Complete | **Complete** |
-| Import Products (3 fields) | ✅ Complete | **Complete** |
-| Help System (6 sections) | ✅ Complete | **Complete** |
 
 ## Development
 
