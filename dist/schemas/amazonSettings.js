@@ -115,5 +115,18 @@ export const amazonSettingsSchema = defineType({
             type: 'boolean',
             initialValue: false,
         }),
+        // Actions (modern: dedicated field component)
+        defineField({
+            name: 'settingsActions',
+            title: 'Actions',
+            type: 'string',
+            components: {
+                input: (props) => {
+                    const { AmazonSettingsActions } = require('../inputs/AmazonSettingsActions');
+                    return AmazonSettingsActions(props);
+                },
+            },
+            options: { layout: 'none' },
+        }),
     ],
 });

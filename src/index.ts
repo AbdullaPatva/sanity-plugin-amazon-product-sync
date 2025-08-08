@@ -5,7 +5,6 @@ import {amazonAsinType} from './schemas/amazonAsin'
 import {amazonProductBlock} from './schemas/amazonProductBlock'
 import {AmazonTool} from './tool/AmazonTool'
 import {AmazonAsinInput} from './inputs/AmazonAsinInput'
-import {AmazonSettingsInput} from './inputs/AmazonSettingsInput'
 import {HelpDocumentation} from './components/HelpDocumentation'
 import {type DocumentActionComponent} from 'sanity'
 
@@ -25,9 +24,6 @@ export const amazonProductsPlugin = definePlugin<AmazonPluginOptions | void>((op
       renderInput(props: any, next: any) {
         if (props.schemaType.name === 'amazon.asin') {
           return AmazonAsinInput(props)
-        }
-        if (props.schemaType.name === 'amazon.settings') {
-          return AmazonSettingsInput(props)
         }
         return next(props)
       },
@@ -54,9 +50,6 @@ export const amazonProductsPlugin = definePlugin<AmazonPluginOptions | void>((op
           return {
             label: 'Sync from Amazon',
             onHandle: () => {
-              // The actual mutation is handled by the input/tool via Functions.
-              // Here we only hint users to use the panel if needed.
-              // We could also open the tool route using window.location if desired.
               window?.alert('Use the Amazon panel or ASIN input to refresh product data.')
               props.onComplete()
             },
