@@ -1,5 +1,5 @@
 import {defineConfig} from 'sanity'
-import {deskTool} from 'sanity/desk'
+import {structureTool} from 'sanity/structure'
 import {amazonProductsPlugin} from 'sanity-plugin-amazon-products'
 
 export default defineConfig({
@@ -10,12 +10,12 @@ export default defineConfig({
   dataset: 'production',
   
   plugins: [
-    deskTool({
+    structureTool({
       structure: (S) =>
         S.list()
           .title('Content')
           .items([
-            // Amazon Settings as a singleton
+            // Amazon Settings as a singleton (direct form access)
             S.listItem()
               .title('Amazon Settings')
               .child(
@@ -32,10 +32,8 @@ export default defineConfig({
                   .title('Amazon Products')
               ),
             
-            // Divider
-            S.divider(),
-            
             // Your other content types
+            S.divider(),
             S.listItem()
               .title('Posts')
               .child(S.documentTypeList('post')),

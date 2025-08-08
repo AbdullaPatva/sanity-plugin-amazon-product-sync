@@ -26,7 +26,7 @@ npm install sanity-plugin-amazon-products
 ```typescript
 // sanity.config.ts
 import {defineConfig} from 'sanity'
-import {deskTool} from 'sanity/desk'
+import {structureTool} from 'sanity/structure'
 import {amazonProductsPlugin} from 'sanity-plugin-amazon-products'
 
 export default defineConfig({
@@ -37,7 +37,7 @@ export default defineConfig({
   dataset: 'production',
   
   plugins: [
-    deskTool({
+    structureTool({
       structure: (S) =>
         S.list()
           .title('Content')
