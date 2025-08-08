@@ -129,4 +129,9 @@ export const amazonSettingsSchema = defineType({
             options: { layout: 'none' },
         }),
     ],
+    preview: {
+        prepare: () => ({
+            title: 'Amazon Settings',
+        }),
+    },
 });

@@ -91,6 +91,14 @@ export const amazonProductSchema = defineType({
   ],
   preview: {
     select: {title: 'title', subtitle: 'asin'},
+    prepare(selection: {title?: string; subtitle?: string}) {
+      const title = selection?.title || selection?.subtitle || 'Amazon Product'
+      const subtitle = selection?.title && selection?.subtitle ? selection.subtitle : undefined
+      return {
+        title,
+        subtitle,
+      }
+    },
   },
 })
 
