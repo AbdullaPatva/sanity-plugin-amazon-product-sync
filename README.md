@@ -8,9 +8,10 @@ A comprehensive Sanity Studio plugin for fetching and managing Amazon products u
 - **Custom ASIN Input**: Enhanced input component with fetch functionality
 - **Portable Text Block**: Native Sanity content block for embedding products
 - **Serverless Functions**: Scalable API integration with PA-API v5
-- **Settings Management**: Comprehensive settings schema with API configuration
+- **Settings Management**: Comprehensive settings schema with API configuration and display preferences
 - **Help System**: Built-in documentation and troubleshooting guide
 - **TypeScript Support**: Full type safety throughout the plugin
+- **Document Actions**: "Sync from Amazon" action on product documents
 
 ## Installation
 
@@ -27,6 +28,7 @@ npm install sanity-plugin-amazon-products
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {amazonProductsPlugin} from 'sanity-plugin-amazon-products'
+import {structure} from './structure' // Import the structure
 
 export default defineConfig({
   name: 'default',
@@ -37,33 +39,7 @@ export default defineConfig({
   
   plugins: [
     structureTool({
-      structure: (S) =>
-        S.list()
-          .title('Content')
-          .items([
-            // Amazon Settings as a singleton (direct form access)
-            S.listItem()
-              .title('Amazon Settings')
-              .child(
-                S.document()
-                  .schemaType('amazon.settings')
-                  .documentId('amazon-settings')
-              ),
-            
-            // Amazon Products as a list
-            S.listItem()
-              .title('Amazon Products')
-              .child(
-                S.documentTypeList('amazon.product')
-                  .title('Amazon Products')
-              ),
-            
-            // Your other content types
-            S.divider(),
-            S.listItem()
-              .title('Posts')
-              .child(S.documentTypeList('post')),
-          ]),
+      structure: structure, // Use the imported structure
     }),
     amazonProductsPlugin(),
   ],
@@ -76,7 +52,49 @@ export default defineConfig({
 })
 ```
 
-### 2. Add Schemas to Your Studio
+### 2. Create Structure File
+
+Create a `structure.ts` file in your project root:
+
+```typescript
+// structure.ts
+import type {StructureResolver} from 'sanity/structure'
+
+export const structure: StructureResolver = (S) =>
+  S.list()
+    .title('Content')
+    .items([
+      // Amazon Settings singleton (opens form directly)
+      S.listItem()
+        .id('amazonSettings')
+        .title('Amazon Settings')
+        .child(
+          S.document()
+            .schemaType('amazon.settings')
+            .documentId('amazon-settings')
+        ),
+
+      // Amazon Product singleton (opens form directly)
+      S.listItem()
+        .id('amazonProduct')
+        .title('Amazon Product')
+        .child(
+          S.document()
+            .schemaType('amazon.product')
+            .documentId('amazon-product')
+        ),
+
+      S.divider(),
+
+      // Show all remaining document types except the amazon singletons
+      ...S.documentTypeListItems().filter((item) => {
+        const id = item.getId()
+        return id && !['amazon.settings', 'amazon.product'].includes(id)
+      }),
+    ])
+```
+
+### 3. Add Schemas to Your Studio
 
 The plugin automatically registers its schemas, but you can also import them manually if needed:
 
@@ -102,7 +120,7 @@ export default defineConfig({
 })
 ```
 
-### 3. Add Portable Text Block (Optional)
+### 4. Add Portable Text Block (Optional)
 
 To use the Amazon product block in your Portable Text:
 
@@ -138,7 +156,14 @@ export async function POST(req: Request): Promise<Response> {
     asin,
     title: 'Product Title',
     price: '$24.99',
-    // ... other product data
+    salePrice: '$19.99',
+    currency: 'USD',
+    listPrice: '$29.99',
+    brand: 'Brand Name',
+    url: `https://www.amazon.com/dp/${asin}`,
+    images: [
+      {url: `https://images-na.ssl-images-amazon.com/images/I/${asin}._SL1500_.jpg`, width: 1500, height: 1500}
+    ]
   }))
 }
 ```
@@ -146,10 +171,11 @@ export async function POST(req: Request): Promise<Response> {
 #### `/api/amazon/bulk-import.ts`
 ```typescript
 export async function POST(req: Request): Promise<Response> {
-  const {asins} = await req.json()
+  const {asins, postType, postStatus} = await req.json()
   
   // TODO: Implement bulk import
   // Create multiple amazon.product documents
+  // postType and postStatus are for reference only
   
   return new Response(JSON.stringify({
     status: 'success',
@@ -175,17 +201,28 @@ export async function POST(req: Request): Promise<Response> {
 
 ### Amazon Settings
 
-1. Click "Amazon Settings" from the left menu
-2. Configure your PA-API credentials
-3. Set display preferences
-4. Test API connection
+1. Click "Amazon Settings" from the left menu (opens directly to settings form)
+2. Configure your PA-API credentials:
+   - Amazon Region (US, UK, etc.)
+   - PA-API Access Key
+   - PA-API Secret Key
+   - Associate Tag (Partner Tag)
+   - Test ASIN Number for API testing
+   - Cache Duration (1-168 hours)
+3. Set display preferences (show/hide product elements)
+4. Use the "Test API Connection" and "Clear Cache" buttons
 
 ### Amazon Products Tool
 
 1. Click "Amazon Products" tool from the top toolbar
-2. Use "Single Product" tab to fetch individual products
-3. Use "Bulk Import" tab to import multiple products
-4. Clear cache when needed
+2. **Single Product Tab:**
+   - Enter an ASIN and click "Fetch"
+   - Review product data and click "Create Product"
+3. **Bulk Import Tab:**
+   - Enter multiple ASINs (comma-separated, max 10)
+   - Set import preferences
+   - Click "Bulk Import"
+4. Use "Clear Cache" button when needed
 
 ### Custom ASIN Input
 
@@ -197,21 +234,29 @@ export async function POST(req: Request): Promise<Response> {
 
 1. Add `amazon.productBlock` to your Portable Text arrays
 2. Select a product reference
-3. Choose display options
+3. Choose display options (show/hide price)
 
 ## Schema Types
 
 ### `amazon.settings`
-Settings document with all API credentials and display preferences.
+Settings document with API credentials and display preferences:
+- **API Settings**: Region, Access Key, Secret Key, Partner Tag, Test ASIN, Cache Duration
+- **Display Settings**: Show/hide product title, image, features, price, CTA link
+- **Import Settings**: Enable shortcode, enable Gutenberg block
+- **Actions**: Test API Connection, Clear Cache buttons
 
 ### `amazon.product`
-Product document with all Amazon product data.
+Product document with all Amazon product data:
+- **Product Info**: ASIN, title, URL, brand, features
+- **Pricing**: Price, sale price, currency, list price
+- **Assets**: Images array with URL, width, height
+- **Metadata**: Last synced timestamp
 
 ### `amazon.asin`
 Custom input type for ASIN fields with fetch functionality.
 
 ### `amazon.productBlock`
-Portable Text block for embedding products in content.
+Portable Text block for embedding products in content with price display option.
 
 
 
