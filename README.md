@@ -242,7 +242,7 @@ export async function POST(req: Request): Promise<Response> {
 Settings document with API credentials and display preferences:
 - **API Settings**: Region, Access Key, Secret Key, Partner Tag, Test ASIN, Cache Duration
 - **Display Settings**: Show/hide product title, image, features, price, CTA link
-- **Import Settings**: Enable shortcode, enable Gutenberg block
+- **Import Settings**: Product import and management tools
 - **Actions**: Test API Connection, Clear Cache buttons
 
 ### `amazon.product`

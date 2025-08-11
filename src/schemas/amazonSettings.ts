@@ -5,11 +5,17 @@ export const amazonSettingsSchema = defineType({
   name: 'amazon.settings',
   title: 'Amazon Settings',
   type: 'document',
+  groups: [
+    { name: 'api', title: 'API Configuration' },
+    { name: 'display', title: 'Display Settings' },
+    { name: 'actions', title: 'Actions' },
+  ],
   fields: [
     defineField({
       name: 'region',
       title: 'Amazon Region',
       type: 'string',
+      group: 'api',
       options: {
         list: [
           {title: 'US (default)', value: 'com'},
@@ -42,6 +48,7 @@ export const amazonSettingsSchema = defineType({
       name: 'accessKey',
       title: 'PA-API Access Key',
       type: 'string',
+      group: 'api',
       description: 'Enter your Amazon API Access Key to authenticate API requests.',
       validation: (r: any) => r.required(),
     }),
@@ -49,6 +56,7 @@ export const amazonSettingsSchema = defineType({
       name: 'secretKey',
       title: 'PA-API Secret Key',
       type: 'string',
+      group: 'api',
       description: 'Enter your Amazon API Secret Key for secure access to the API.',
       validation: (r: any) => r.required(),
     }),
@@ -56,6 +64,7 @@ export const amazonSettingsSchema = defineType({
       name: 'partnerTag',
       title: 'Associate Tag (Partner Tag)',
       type: 'string',
+      group: 'api',
       description: 'Enter your Amazon Partner Tag for tracking and attribution in the affiliate program.',
       validation: (r: any) => r.required(),
     }),
@@ -63,6 +72,7 @@ export const amazonSettingsSchema = defineType({
       name: 'asinNumber',
       title: 'Enter random ASIN Number',
       type: 'string',
+      group: 'api',
       description: 'From Amazon product\'s page add ASIN number of any product for testing API connection.',
       validation: (r: any) => r.required(),
     }),
@@ -70,58 +80,53 @@ export const amazonSettingsSchema = defineType({
       name: 'cacheHours',
       title: 'Cache Duration (hours)',
       type: 'number',
+      group: 'api',
       initialValue: 24,
       validation: (r: any) => r.min(1).max(168),
     }),
-    // Field Display Settings (matching WordPress plugin)
+    // Field Display Settings
     defineField({
       name: 'showProductTitle',
       title: 'Show Product Title',
       type: 'boolean',
+      group: 'display',
       initialValue: true,
     }),
     defineField({
       name: 'showProductImage',
       title: 'Show Product Image',
       type: 'boolean',
+      group: 'display',
       initialValue: true,
     }),
     defineField({
       name: 'showProductFeatures',
       title: 'Show Product Features',
       type: 'boolean',
+      group: 'display',
       initialValue: true,
     }),
     defineField({
       name: 'showProductPrice',
       title: 'Show Product Price',
       type: 'boolean',
+      group: 'display',
       initialValue: true,
     }),
     defineField({
       name: 'showCtaLink',
       title: 'Show CTA Link',
       type: 'boolean',
+      group: 'display',
       initialValue: true,
     }),
-    // Import Settings
-    defineField({
-      name: 'enableShortcode',
-      title: 'Enable Shortcode',
-      type: 'boolean',
-      initialValue: false,
-    }),
-    defineField({
-      name: 'enableGutenbergBlock',
-      title: 'Enable Gutenberg Block',
-      type: 'boolean',
-      initialValue: false,
-    }),
+
     // Actions (modern: dedicated field component)
     defineField({
       name: 'settingsActions',
       title: 'Actions',
       type: 'string',
+      group: 'actions',
       components: {
         input: AmazonSettingsActions,
       },

@@ -47,13 +47,7 @@ export function HelpDocumentation() {
               <strong>API Access Key:</strong> You can obtain the Amazon Product Advertising API Access Key, Secret Key, and Partner Tag from your Amazon Associates account.
             </Text>
             <Text size={1}>
-              <strong>Enable Shortcode:</strong> You can use a shortcode in a post or page to display product details from Amazon by providing an ASIN number.
-            </Text>
-            <Text size={1}>
-              <strong>Enable Gutenberg Block:</strong> Additionally, you can use a Gutenberg block for the same purpose.
-            </Text>
-            <Text size={1}>
-              <strong>Cache:</strong> When using either the shortcode or the Gutenberg block, the plugin stores product data for 24 hours to minimize API calls.
+              <strong>Cache:</strong> Product data is cached for 24 hours to minimize API calls and improve performance.
             </Text>
           </Stack>
         </AccordionItem>
