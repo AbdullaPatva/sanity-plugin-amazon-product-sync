@@ -1,13 +1,13 @@
-import {defineType, defineField, defineArrayMember} from 'sanity'
+import { defineType, defineField, defineArrayMember } from 'sanity'
 
 export const amazonProductSchema = defineType({
   name: 'amazon.product',
   title: 'Amazon Product',
   type: 'document',
   groups: [
-    {name: 'product', title: 'Product'},
-    {name: 'pricing', title: 'Pricing'},
-    {name: 'assets', title: 'Assets'},
+    { name: 'product', title: 'Product' },
+    { name: 'pricing', title: 'Pricing' },
+    { name: 'assets', title: 'Assets' },
   ],
   fields: [
     defineField({
@@ -39,7 +39,7 @@ export const amazonProductSchema = defineType({
       name: 'features',
       title: 'Features',
       type: 'array',
-      of: [defineArrayMember({type: 'string'})],
+      of: [defineArrayMember({ type: 'string' })],
       group: 'product',
     }),
     defineField({
@@ -74,9 +74,9 @@ export const amazonProductSchema = defineType({
         defineArrayMember({
           type: 'object',
           fields: [
-            {name: 'url', title: 'URL', type: 'url'},
-            {name: 'width', title: 'Width', type: 'number'},
-            {name: 'height', title: 'Height', type: 'number'},
+            { name: 'url', title: 'URL', type: 'url' },
+            { name: 'width', title: 'Width', type: 'number' },
+            { name: 'height', title: 'Height', type: 'number' },
           ],
         }),
       ],
@@ -90,15 +90,9 @@ export const amazonProductSchema = defineType({
     }),
   ],
   preview: {
-    select: {title: 'title', subtitle: 'asin'},
-    prepare(selection: {title?: string; subtitle?: string}) {
-      const title = selection?.title || selection?.subtitle || 'Amazon Product'
-      const subtitle = selection?.title && selection?.subtitle ? selection.subtitle : undefined
-      return {
-        title,
-        subtitle,
-      }
-    },
+    prepare: () => ({
+      title: 'Amazon Product',
+    }),
   },
 })
 
