@@ -960,7 +960,7 @@ You can also manually enter product information without fetching from Amazon. Al
 ### Build the Plugin
 
 ```bash
-cd plugins/amazon-product-sync
+cd plugins/sanity-plugin-amazon-product-sync
 npm install
 npx tsc
 ```

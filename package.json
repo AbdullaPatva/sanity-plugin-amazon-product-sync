@@ -1,5 +1,5 @@
 {
-  "name": "sanity-plugin-amazon-products",
+  "name": "sanity-plugin-amazon-product-sync",
   "version": "0.1.0",
   "description": "Sanity Studio plugin to fetch and embed Amazon products by ASIN (PA-API v5), with settings tool and document actions.",
   "keywords": [
@@ -12,13 +12,13 @@
   ],
   "license": "MIT",
   "author": "Your Name <you@example.com>",
-  "homepage": "https://github.com/your-org/sanity-plugin-amazon-products",
+  "homepage": "https://github.com/your-org/sanity-plugin-amazon-product-sync",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-org/sanity-plugin-amazon-products.git"
+    "url": "git+https://github.com/your-org/sanity-plugin-amazon-product-sync.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/sanity-plugin-amazon-products/issues"
+    "url": "https://github.com/your-org/sanity-plugin-amazon-product-sync/issues"
   },
   "type": "module",
   "main": "dist/index.js",
