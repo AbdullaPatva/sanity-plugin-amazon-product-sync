@@ -1,28 +1,15 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useCallback, useState, useEffect } from 'react';
-import { Button, Card, Flex, Stack, Text, useToast, TextInput, Box } from '@sanity/ui';
-import { useClient, set } from 'sanity';
-export function AmazonAsinInput(props) {
-    const { schemaType, document, value, onChange } = props;
+import { useCallback, useState } from 'react';
+import { Button, Card, Flex, Stack, Text, useToast } from '@sanity/ui';
+import { useClient } from 'sanity';
+export function AmazonProductFetch(props) {
+    const { schemaType, document } = props;
     const toast = useToast();
     const [loading, setLoading] = useState(false);
     const client = useClient({ apiVersion: '2025-01-01' });
-    // Debug: Log all props and values
-    useEffect(() => {
-        console.log('🔍 AmazonAsinInput Debug Info:');
-        console.log('Props:', props);
-        console.log('Value:', value);
-        console.log('Document:', document);
-        console.log('Document ASIN:', document?.asin);
-        console.log('OnChange function:', onChange);
-    }, [props, value, document, onChange]);
-    const handleInputChange = (next) => {
-        const trimmed = next ?? '';
-        console.log('🔍 ASIN Input Change:', { next, trimmed });
-        onChange(set(trimmed));
-    };
+    const asinNumber = document?.asin?.asin || document?.asin;
     const handleFetchFromAmazon = useCallback(async () => {
-        if (!value) {
+        if (!asinNumber) {
             toast.push({
                 status: 'warning',
                 title: 'ASIN Required',
@@ -39,7 +26,7 @@ export function AmazonAsinInput(props) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    asin: value
+                    asin: asinNumber
                 })
             });
             if (!response.ok) {
@@ -68,6 +55,8 @@ export function AmazonAsinInput(props) {
                     title: 'Product Fetched Successfully!',
                     description: `Fetched: ${result.product.title}`
                 });
+                // Trigger a re-render of the form
+                window.location.reload();
             }
             else {
                 throw new Error(result.error || 'Failed to fetch product data');
@@ -83,8 +72,10 @@ export function AmazonAsinInput(props) {
         finally {
             setLoading(false);
         }
-    }, [value, client, toast, document]);
-    return (_jsxs(Stack, { space: 3, children: [_jsx(Card, { padding: 2, tone: "caution", radius: 1, children: _jsxs(Stack, { space: 2, children: [_jsx(Text, { size: 0, weight: "semibold", children: "\uD83D\uDD0D ASIN Input Debug:" }), _jsxs(Text, { size: 0, children: ["Current Value: ", value || 'EMPTY'] }), _jsxs(Text, { size: 0, children: ["Document ASIN: ", JSON.stringify(document?.asin)] }), _jsxs(Text, { size: 0, children: ["OnChange Type: ", typeof onChange] })] }) }), _jsxs(Box, { children: [_jsx("label", { style: { display: 'block', marginBottom: '8px', fontWeight: 'bold' }, children: schemaType.title || 'ASIN' }), _jsx(TextInput, { value: value || '', onChange: (e) => handleInputChange(e.currentTarget.value), placeholder: "Enter Amazon ASIN (e.g., B0F15TM77B)" })] }), value && (_jsx(Card, { padding: 3, tone: "primary", radius: 2, shadow: 1, children: _jsxs(Stack, { space: 3, children: [_jsx(Text, { size: 1, muted: true, children: "Fetch Product Details" }), _jsx(Flex, { gap: 2, children: _jsx(Button, { text: "Fetch from Amazon", tone: "positive", disabled: loading, onClick: handleFetchFromAmazon, loading: loading }) }), _jsx(Text, { size: 1, muted: true, children: loading
-                                ? 'Fetching product data from Amazon...'
-                                : `Ready to fetch product data for ASIN: ${value}` })] }) }))] }));
+    }, [asinNumber, client, toast]);
+    return (_jsx(Card, { padding: 3, tone: "primary", radius: 2, shadow: 1, children: _jsxs(Stack, { space: 3, children: [_jsx(Text, { size: 1, muted: true, children: schemaType.title || 'Fetch from Amazon' }), _jsx(Flex, { gap: 2, children: _jsx(Button, { text: "Fetch from Amazon", tone: "positive", disabled: !asinNumber || loading, onClick: handleFetchFromAmazon, loading: loading }) }), _jsx(Text, { size: 1, muted: true, children: !asinNumber
+                        ? 'Enter an ASIN number above, then click "Fetch from Amazon" to automatically populate product details.'
+                        : loading
+                            ? 'Fetching product data from Amazon...'
+                            : `Ready to fetch product data for ASIN: ${asinNumber}` }), asinNumber && !loading && (_jsxs(Text, { size: 1, muted: true, children: ["\u2705 ASIN entered: ", asinNumber] }))] }) }));
 }

@@ -3,10 +3,10 @@ import {amazonSettingsSchema} from './schemas/amazonSettings'
 import {amazonProductSchema} from './schemas/amazonProduct'
 import {amazonAsinType} from './schemas/amazonAsin'
 import {amazonProductBlock} from './schemas/amazonProductBlock'
+import {amazonFetchButtonSchema} from './schemas/amazonFetchButton'
 import {AmazonTool} from './tool/AmazonTool'
 import {AmazonAsinInput} from './inputs/AmazonAsinInput'
-import {HelpDocumentation} from './components/HelpDocumentation'
-import {type DocumentActionComponent} from 'sanity'
+
 
 export interface AmazonPluginOptions {
   // Optional: override tool name or route
@@ -18,13 +18,14 @@ export const amazonProductsPlugin = definePlugin<AmazonPluginOptions | void>((op
   return {
     name: 'sanity-plugin-amazon-products',
     schema: {
-      types: [amazonSettingsSchema, amazonProductSchema, amazonAsinType, amazonProductBlock],
+      types: [amazonSettingsSchema, amazonProductSchema, amazonAsinType, amazonProductBlock, amazonFetchButtonSchema],
     },
     form: {
       renderInput(props: any, next: any) {
         if (props.schemaType.name === 'amazon.asin') {
           return AmazonAsinInput(props)
         }
+        // amazonFetchButton is handled by components.input in its schema
         return next(props)
       },
     },
@@ -35,29 +36,7 @@ export const amazonProductsPlugin = definePlugin<AmazonPluginOptions | void>((op
         component: AmazonTool,
         icon: undefined,
       },
-      {
-        name: `${toolName}-help`,
-        title: 'Amazon Products Help',
-        component: HelpDocumentation,
-        icon: undefined,
-      },
     ],
-    document: {
-      actions: (prev: any) => {
-        const SyncFromAmazonAction: DocumentActionComponent = (props: any) => {
-          const isAmazonDoc = props.type === 'amazon.product'
-          if (!isAmazonDoc) return null
-          return {
-            label: 'Sync from Amazon',
-            onHandle: () => {
-              window?.alert('Use the Amazon panel or ASIN input to refresh product data.')
-              props.onComplete()
-            },
-          }
-        }
-        return [SyncFromAmazonAction, ...prev]
-      },
-    },
   }
 })
 

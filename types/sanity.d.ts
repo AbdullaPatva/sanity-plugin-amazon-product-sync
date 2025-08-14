@@ -15,5 +15,6 @@ declare module 'sanity' {
   export function useClient(opts?: any): any
   export function useToast(): {toast: {push: (toast: any) => void}}
   export function useWorkspace(): any
+  export function useFormValue(path: string[]): any
 }
 

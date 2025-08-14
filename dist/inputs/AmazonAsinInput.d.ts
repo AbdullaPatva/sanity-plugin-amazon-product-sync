@@ -1,4 +1,5 @@
-import type { StringInputProps } from 'sanity';
-type Props = StringInputProps;
-export declare function AmazonAsinInput(props: Props): import("react/jsx-runtime").JSX.Element;
-export {};
+import type { FormInputProps } from 'sanity';
+export type AmazonAsinInputProps = FormInputProps & {
+    document?: any;
+};
+export declare function AmazonAsinInput(props: AmazonAsinInputProps): import("react/jsx-runtime").JSX.Element;

@@ -1,0 +1,29 @@
+# Copy this to .env.local in your Next.js project root
+
+# ====================================================
+# SANITY CONFIGURATION
+# ====================================================
+
+# Your Sanity project ID (get from manage.sanity.io)
+NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id-here
+
+# Your dataset name (usually 'production')
+NEXT_PUBLIC_SANITY_DATASET=production
+
+# Sanity API token with read/write permissions
+# Get from: manage.sanity.io → Your Project → API → Tokens
+SANITY_API_TOKEN=your-sanity-api-token-here
+
+# ====================================================
+# API CONFIGURATION (Optional)
+# ====================================================
+
+# Your API base URL (for local development)
+NEXT_PUBLIC_API_URL=http://localhost:3001/api
+
+# ====================================================
+# OPTIONAL: DEBUGGING
+# ====================================================
+
+# Enable debug mode for development
+NEXT_PUBLIC_DEBUG_MODE=true
