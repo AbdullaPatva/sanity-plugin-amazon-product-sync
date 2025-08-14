@@ -24,36 +24,57 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "import": "dist/index.js",
+      "default": "dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "browserslist": "extends @sanity/browserslist-config",
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "build": "plugin-kit build",
-    "dev": "plugin-kit dev",
-    "clean": "rimraf dist",
+    "build": "plugin-kit verify-package --silent && pkg-utils build --strict --check --clean",
+    "watch": "pkg-utils watch --strict",
+    "link-watch": "plugin-kit link-watch",
+    "prepublishOnly": "npm run build",
+    "dev": "pkg-utils watch --strict",
+    "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "sanity": ">=3.86.0 <5",
     "react": ">=18",
-    "react-dom": ">=18"
+    "react-dom": ">=18",
+    "sanity": ">=3.86.0 <5"
   },
   "dependencies": {
-    "@sanity/ui": "^2.6.0",
     "@sanity/client": "^6.12.0",
+    "@sanity/ui": "^2.6.0",
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
+    "@sanity/browserslist-config": "^1.0.5",
+    "@sanity/pkg-utils": "^7.11.8",
     "@sanity/plugin-kit": "^4.0.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
-    "rimraf": "^5.0.5",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
     "typescript": "^5.5.4"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=18"
+  },
+  "sanityPlugin": {
+    "verifyPackage": {
+      "eslintImports": false,
+      "sanityV2Json": false
+    }
   }
 }
-

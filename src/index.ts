@@ -4,15 +4,22 @@ import {amazonProductSchema} from './schemas/amazonProduct'
 import {amazonAsinType} from './schemas/amazonAsin'
 import {amazonProductBlock} from './schemas/amazonProductBlock'
 import {amazonFetchButtonSchema} from './schemas/amazonFetchButton'
-import {AmazonTool} from './tool/AmazonTool'
 import {AmazonAsinInput} from './inputs/AmazonAsinInput'
 
 
+/**
+ * Configuration options for the Amazon Products plugin
+ * @public
+ */
 export interface AmazonPluginOptions {
   // Optional: override tool name or route
   toolName?: string
 }
 
+/**
+ * Sanity Studio plugin for fetching and managing Amazon products
+ * @public
+ */
 export const amazonProductsPlugin = definePlugin<AmazonPluginOptions | void>((opts: AmazonPluginOptions | void) => {
   const toolName = opts?.toolName ?? 'amazon'
   return {
@@ -29,14 +36,6 @@ export const amazonProductsPlugin = definePlugin<AmazonPluginOptions | void>((op
         return next(props)
       },
     },
-    tools: [
-      {
-        name: toolName,
-        title: 'Amazon Products',
-        component: AmazonTool,
-        icon: undefined,
-      },
-    ],
   }
 })
 

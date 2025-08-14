@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { useCallback, useState, useEffect } from 'react'
 import { Button, Card, Flex, Stack, Text, useToast, TextInput, Box } from '@sanity/ui'
-import type { FormInputProps } from 'sanity'
+import type { InputProps } from 'sanity'
 import { useClient, set } from 'sanity'
 
-export type AmazonAsinInputProps = FormInputProps & {
+export type AmazonAsinInputProps = InputProps & {
   document?: any
 }
 

@@ -130,7 +130,6 @@ export const amazonSettingsSchema = defineType({
       components: {
         input: AmazonSettingsActions,
       },
-      options: {layout: 'none'},
     }),
   ],
   preview: {

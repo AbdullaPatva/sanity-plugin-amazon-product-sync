@@ -1,10 +1,10 @@
 import * as React from 'react'
 import {useState, useEffect} from 'react'
 import {Button, Card, Flex, Stack, Text, useToast} from '@sanity/ui'
-import type {FormInputProps} from 'sanity'
+import type {InputProps} from 'sanity'
 import {useClient} from 'sanity'
 
-export type SettingsActionsInputProps = FormInputProps & {
+export type SettingsActionsInputProps = InputProps & {
   // document is available on props in Studio; typing as any for plugin portability
   document?: any
 }
