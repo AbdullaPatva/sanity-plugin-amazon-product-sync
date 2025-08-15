@@ -949,7 +949,7 @@ You can also manually enter product information without fetching from Amazon. Al
 ```bash
 cd plugins/@multidots/sanity-plugin-amazon-product-sync
 npm install
-npx tsc
+npm run build
 ```
 
 ### Start API Server
