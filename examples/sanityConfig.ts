@@ -1,7 +1,7 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
-import { amazonProductsPlugin } from 'sanity-plugin-amazon-products'
+import { amazonProductsPlugin } from '@multidots/sanity-plugin-amazon-product-sync'
 import { structure } from './structure' // Import the structure
 
 export default defineConfig({

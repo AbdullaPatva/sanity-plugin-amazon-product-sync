@@ -17,7 +17,7 @@ A comprehensive Sanity Studio plugin for fetching and managing Amazon products u
 ## 📦 Installation
 
 ```bash
-npm install sanity-plugin-amazon-products
+npm install @multidots/sanity-plugin-amazon-product-sync
 ```
 
 ## ⚙️ Setup
@@ -29,7 +29,7 @@ npm install sanity-plugin-amazon-products
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
-import { amazonProductsPlugin } from 'sanity-plugin-amazon-products'
+import { amazonProductsPlugin } from '@multidots/sanity-plugin-amazon-product-sync'
 import { structure } from './structure'
 
 export default defineConfig({
@@ -960,7 +960,7 @@ You can also manually enter product information without fetching from Amazon. Al
 ### Build the Plugin
 
 ```bash
-cd plugins/sanity-plugin-amazon-product-sync
+cd plugins/@multidots/sanity-plugin-amazon-product-sync
 npm install
 npx tsc
 ```
