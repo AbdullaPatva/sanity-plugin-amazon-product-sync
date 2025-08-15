@@ -64,32 +64,19 @@ export const structure: StructureResolver = (S) =>
   S.list()
     .title('Content')
     .items([
-      // Amazon Settings (Singleton)
-      S.listItem()
-        .id('amazonSettings')
-        .title('Amazon Settings')
-        .child(
-          S.document()
-            .schemaType('amazon.settings')
-            .documentId('amazon-settings')
-        ),
-      
-      // Amazon Products (Multiple Documents)
-      S.listItem()
-        .id('amazonProducts')
-        .title('Amazon Products')
-        .child(
-          S.documentTypeList('amazon.product')
-            .title('Amazon Products')
-        ),
-      
-      S.divider(),
-      
-      // Other document types
       ...S.documentTypeListItems().filter(
         (item) => item.getId() &&
           !['amazon.settings'].includes(item.getId()!)
       ),
+      S.divider(),
+      S.listItem()
+        .id('amazonSettings')
+        .title('Amazon Settings')
+        .child(
+            S.document()
+                .schemaType('amazon.settings')
+                .documentId('amazon-settings')
+        ),
     ])
 ```
 
