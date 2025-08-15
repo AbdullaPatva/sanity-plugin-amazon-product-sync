@@ -955,7 +955,7 @@ npx tsc
 ### Start API Server
 
 ```bash
-cd amazon-api-server
+cd your-frontend-app
 npm install
 npm run dev
 ```
