@@ -12,14 +12,6 @@
   ],
   "license": "MIT",
   "author": "Multidots <sanity@multidots.com>",
-  "homepage": "https://github.com/AbdullaPatva/sanity-plugin-amazon-product-sync",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AbdullaPatva/sanity-plugin-amazon-product-sync.git"
-  },
-  "bugs": {
-    "url": "https://github.com/AbdullaPatva/sanity-plugin-amazon-product-sync/issues"
-  },
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
