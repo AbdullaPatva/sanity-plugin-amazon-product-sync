@@ -14,13 +14,13 @@ A comprehensive Sanity Studio plugin for fetching and managing Amazon products u
 - **TypeScript Support**: Full type safety throughout the plugin
 - **Modern Sanity v4**: Built for the latest Sanity Studio architecture
 
-![Plugin Overview](screenshots/API-settings.png)
+![Plugin Overview](https://raw.githubusercontent.com/AbdullaPatva/sanity-plugin-amazon-product-sync/refs/heads/master/screenshots/API-settings.png)
 *Amazon Product Sync plugin overview in Sanity Studio*
 
-![Plugin Overview](screenshots/Product-display-settings.png)
+![Plugin Overview](https://raw.githubusercontent.com/AbdullaPatva/sanity-plugin-amazon-product-sync/refs/heads/master/screenshots/Product-display-settings.png)
 *Amazon Product Sync plugin overview in Sanity Studio*
 
-![Plugin Overview](screenshots/Test-Connection.png)
+![Plugin Overview](https://raw.githubusercontent.com/AbdullaPatva/sanity-plugin-amazon-product-sync/refs/heads/master/screenshots/Test-Connection.png)
 *Amazon Product Sync plugin overview in Sanity Studio*
 
 ## 📦 Installation
@@ -900,7 +900,7 @@ npm run dev
 7. Review and edit the data as needed
 8. Click **"Publish"** when ready
 
-![Product Creation](screenshots/product-creation.png)
+![Product Creation](https://raw.githubusercontent.com/AbdullaPatva/sanity-plugin-amazon-product-sync/refs/heads/master/screenshots/product-creation.png)
 *Creating a new Amazon product document*
 
 ### 3. Manual Entry
