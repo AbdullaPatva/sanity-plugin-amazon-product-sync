@@ -14,13 +14,22 @@ A comprehensive Sanity Studio plugin for fetching and managing Amazon products u
 - **TypeScript Support**: Full type safety throughout the plugin
 - **Modern Sanity v4**: Built for the latest Sanity Studio architecture
 
-![Plugin Overview](https://raw.githubusercontent.com/AbdullaPatva/sanity-plugin-amazon-product-sync/refs/heads/master/screenshots/API-settings.png)
+![Plugin Overview](screenshots/API-settings.png)
+
+[https://share.cleanshot.com/sYc88tRMBvHPvsjvt9YT](https://share.cleanshot.com/sYc88tRMBvHPvsjvt9YT)
+
 *Amazon Product Sync plugin overview in Sanity Studio*
 
-![Plugin Overview](https://raw.githubusercontent.com/AbdullaPatva/sanity-plugin-amazon-product-sync/refs/heads/master/screenshots/Product-display-settings.png)
+![Plugin Overview](screenshots/Product-display-settings.png)
+
+[https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6](https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6)
+
 *Amazon Product Sync plugin overview in Sanity Studio*
 
-![Plugin Overview](https://raw.githubusercontent.com/AbdullaPatva/sanity-plugin-amazon-product-sync/refs/heads/master/screenshots/Test-Connection.png)
+![Plugin Overview](screenshots/Test-Connection.png)
+
+[https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6](https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6)
+
 *Amazon Product Sync plugin overview in Sanity Studio*
 
 ## 📦 Installation
@@ -900,7 +909,7 @@ npm run dev
 7. Review and edit the data as needed
 8. Click **"Publish"** when ready
 
-![Product Creation](https://raw.githubusercontent.com/AbdullaPatva/sanity-plugin-amazon-product-sync/refs/heads/master/screenshots/product-creation.png)
+![Product Creation](screenshots/product-creation.png)
 
 [https://share.cleanshot.com/n2tnCdSDwsW11cwYH7dq](https://share.cleanshot.com/n2tnCdSDwsW11cwYH7dq)
 
@@ -934,6 +943,9 @@ You can also manually enter product information without fetching from Amazon. Al
 - "Debug Document" - View document state
 
 ![Settings Actions](screenshots/Test-Connection.png)
+
+[https://share.cleanshot.com/P2LbmkdNCJcwJFf14CHC](https://share.cleanshot.com/P2LbmkdNCJcwJFf14CHC)
+
 *Amazon Settings actions panel with Test API Connection button*
 
 ### Amazon Product (`amazon.product`)
