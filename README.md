@@ -901,7 +901,7 @@ npm run dev
 8. Click **"Publish"** when ready
 
 ![Product Creation](https://raw.githubusercontent.com/AbdullaPatva/sanity-plugin-amazon-product-sync/refs/heads/master/screenshots/product-creation.png)
-https://share.cleanshot.com/n2tnCdSDwsW11cwYH7dq
+[https://share.cleanshot.com/n2tnCdSDwsW11cwYH7dq](https://share.cleanshot.com/n2tnCdSDwsW11cwYH7dq)
 *Creating a new Amazon product document*
 
 ### 3. Manual Entry
