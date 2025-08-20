@@ -14,23 +14,25 @@ A comprehensive Sanity Studio plugin for fetching and managing Amazon products u
 - **TypeScript Support**: Full type safety throughout the plugin
 - **Modern Sanity v4**: Built for the latest Sanity Studio architecture
 
+*Amazon Product Sync plugin overview in Sanity Studio*
+
 ![Plugin Overview](screenshots/API-settings.png)
 
 [https://share.cleanshot.com/sYc88tRMBvHPvsjvt9YT](https://share.cleanshot.com/sYc88tRMBvHPvsjvt9YT)
 
-*Amazon Product Sync plugin overview in Sanity Studio*
+*API Settings*
 
 ![Plugin Overview](screenshots/Product-display-settings.png)
 
 [https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6](https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6)
 
-*Amazon Product Sync plugin overview in Sanity Studio*
+*Product Fields Display Settings*
 
 ![Plugin Overview](screenshots/Test-Connection.png)
 
 [https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6](https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6)
 
-*Amazon Product Sync plugin overview in Sanity Studio*
+*Test Connection and Debug Actions*
 
 ## 📦 Installation
 
