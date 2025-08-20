@@ -22,15 +22,11 @@ A comprehensive Sanity Studio plugin for fetching and managing Amazon products u
 
 ![Plugin Overview](screenshots/Product-display-settings.png)
 
-[https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6](https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6)
-
-*Product Fields Display Settings*
+*Product Fields Display Settings:* [https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6](https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6)
 
 ![Plugin Overview](screenshots/Test-Connection.png)
 
-[https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6](https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6)
-
-*Test Connection and Debug Actions*
+*Test Connection and Debug Actions:* [https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6](https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6)
 
 ## 📦 Installation
 
