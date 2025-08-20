@@ -18,9 +18,7 @@ A comprehensive Sanity Studio plugin for fetching and managing Amazon products u
 
 ![Plugin Overview](screenshots/API-settings.png)
 
-[https://share.cleanshot.com/sYc88tRMBvHPvsjvt9YT](https://share.cleanshot.com/sYc88tRMBvHPvsjvt9YT)
-
-*API Settings*
+*API Settings:* [https://share.cleanshot.com/sYc88tRMBvHPvsjvt9YT](https://share.cleanshot.com/sYc88tRMBvHPvsjvt9YT)
 
 ![Plugin Overview](screenshots/Product-display-settings.png)
 
