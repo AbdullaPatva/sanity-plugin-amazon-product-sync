@@ -902,6 +902,33 @@ npm run dev
 
 ![Product Creation](https://raw.githubusercontent.com/AbdullaPatva/sanity-plugin-amazon-product-sync/refs/heads/master/screenshots/product-creation.png)
 *Creating a new Amazon product document*
+<div id="dynamic-images"></div>
+
+<script>
+(function() {
+  const hostname = window.location.hostname;
+  const pathname = window.location.pathname;
+  
+  let imageUrl;
+  
+  if (hostname.includes('sanity.io')) {
+    // Your external site
+    imageUrl = 'https://share.cleanshot.com/n2tnCdSDwsW11cwYH7dq';
+
+  document.getElementById('dynamic-images').innerHTML = `
+    <a href="${imageUrl}" target="_blank" />${imageUrl}</a>
+  `;
+  } else {
+    // Fallback for other sites
+    imageUrl = 'https://raw.githubusercontent.com/AbdullaPatva/sanity-plugin-amazon-product-sync/refs/heads/master/screenshots/product-creation.png';
+  document.getElementById('dynamic-images').innerHTML = `
+    <img src="${imageUrl}" 
+         alt="Product Creation" 
+         style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" />
+  `;
+  }
+})();
+</script>
 
 ### 3. Manual Entry
 
