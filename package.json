@@ -1,6 +1,6 @@
 {
   "name": "@multidots/sanity-plugin-amazon-product-sync",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "Sanity Studio plugin to fetch and embed Amazon products by ASIN (PA-API v5), with settings tool and document actions.",
   "keywords": [
     "sanity",

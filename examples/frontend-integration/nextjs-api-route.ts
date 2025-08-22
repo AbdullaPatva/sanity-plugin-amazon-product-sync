@@ -16,33 +16,15 @@ export async function OPTIONS() {
 
 export async function POST(request: NextRequest) {
   try {
-    // Get Amazon settings from Sanity
-    const settings = await getAmazonSettings()
-    
-    if (!settings) {
-      const response = NextResponse.json({
-        success: false,
-        message: 'Amazon API credentials not configured',
-        error: 'Please configure your Amazon API credentials in Sanity Studio first'
-      }, { status: 400 })
-
-      // Add CORS headers
-      response.headers.set('Access-Control-Allow-Origin', 'http://localhost:3333')
-      response.headers.set('Access-Control-Allow-Methods', 'POST, OPTIONS')
-      response.headers.set('Access-Control-Allow-Headers', 'Content-Type')
-      
-      return response
-    }
-
-    // Parse request body
+    // Parse request body to get credentials and test ASIN
     const body = await request.json()
-    const { testAsin } = body
+    const { testAsin, accessKey, secretKey, partnerTag, region } = body
 
-    if (!testAsin) {
+    if (!testAsin || !accessKey || !secretKey || !partnerTag) {
       const response = NextResponse.json({
         success: false,
-        message: 'Test ASIN is required',
-        error: 'Please provide a test ASIN number'
+        message: 'Missing required fields',
+        error: 'Please provide testAsin, accessKey, secretKey, and partnerTag'
       }, { status: 400 })
 
       // Add CORS headers
@@ -53,12 +35,12 @@ export async function POST(request: NextRequest) {
       return response
     }
 
-    // Create Amazon client with credentials from Sanity
+    // Create Amazon client with credentials from request body (real-time form values)
     const amazonClient = new AmazonClient({
-      accessKey: settings.accessKey,
-      secretKey: settings.secretKey,
-      partnerTag: settings.partnerTag,
-      region: settings.region
+      accessKey,
+      secretKey,
+      partnerTag,
+      region: region || 'com'
     })
 
     // Test the connection by fetching product data
@@ -69,9 +51,9 @@ export async function POST(request: NextRequest) {
       message: 'Amazon API connection successful!',
       testProduct: product,
       settings: {
-        region: settings.region,
-        partnerTag: settings.partnerTag,
-        cacheHours: settings.cacheHours
+        region: region || 'com',
+        partnerTag: partnerTag,
+        cacheHours: 0 // No cache for real-time testing
       },
       timestamp: new Date().toISOString()
     })

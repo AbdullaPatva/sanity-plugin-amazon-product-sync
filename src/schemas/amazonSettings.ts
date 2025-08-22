@@ -7,8 +7,8 @@ export const amazonSettingsSchema = defineType({
   type: 'document',
   groups: [
     { name: 'api', title: 'API Configuration' },
-    { name: 'display', title: 'Display Settings' },
     { name: 'actions', title: 'Actions' },
+    { name: 'display', title: 'Display Settings' },
   ],
   fields: [
     defineField({
@@ -72,9 +72,18 @@ export const amazonSettingsSchema = defineType({
       name: 'asinNumber',
       title: 'Enter random ASIN Number',
       type: 'string',
-      group: 'api',
+      group: 'actions',
       description: 'From Amazon product\'s page add ASIN number of any product for testing API connection.',
       validation: (r: any) => r.required(),
+    }),
+    defineField({
+      name: 'settingsActions',
+      title: 'Actions',
+      type: 'string',
+      group: 'actions',
+      components: {
+        input: AmazonSettingsActions,
+      },
     }),
     defineField({
       name: 'cacheHours',
@@ -84,7 +93,6 @@ export const amazonSettingsSchema = defineType({
       initialValue: 24,
       validation: (r: any) => r.min(1).max(168),
     }),
-    // Field Display Settings
     defineField({
       name: 'showProductTitle',
       title: 'Show Product Title',
@@ -119,17 +127,6 @@ export const amazonSettingsSchema = defineType({
       type: 'boolean',
       group: 'display',
       initialValue: true,
-    }),
-
-    // Actions (modern: dedicated field component)
-    defineField({
-      name: 'settingsActions',
-      title: 'Actions',
-      type: 'string',
-      group: 'actions',
-      components: {
-        input: AmazonSettingsActions,
-      },
     }),
   ],
   preview: {

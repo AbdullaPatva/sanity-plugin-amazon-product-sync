@@ -16,33 +16,15 @@ export async function OPTIONS() {
 
 export async function POST(request: NextRequest) {
   try {
-    // Get Amazon settings from Sanity
-    const settings = await getAmazonSettings()
-    
-    if (!settings) {
-      const response = NextResponse.json({
-        success: false,
-        message: 'Amazon API credentials not configured',
-        error: 'Please configure your Amazon API credentials in Sanity Studio first'
-      }, { status: 400 })
-
-      // Add CORS headers
-      response.headers.set('Access-Control-Allow-Origin', 'http://localhost:3333')
-      response.headers.set('Access-Control-Allow-Methods', 'POST, OPTIONS')
-      response.headers.set('Access-Control-Allow-Headers', 'Content-Type')
-      
-      return response
-    }
-
-    // Parse request body
+    // Parse request body to get credentials and ASIN
     const body = await request.json()
-    const { asin } = body
+    const { asin, accessKey, secretKey, partnerTag, region } = body
 
-    if (!asin) {
+    if (!asin || !accessKey || !secretKey || !partnerTag) {
       const response = NextResponse.json({
         success: false,
-        message: 'ASIN is required',
-        error: 'Please provide an ASIN number'
+        message: 'Missing required fields',
+        error: 'Please provide asin, accessKey, secretKey, and partnerTag'
       }, { status: 400 })
 
       // Add CORS headers
@@ -53,12 +35,12 @@ export async function POST(request: NextRequest) {
       return response
     }
 
-    // Create Amazon client with credentials from Sanity
+    // Create Amazon client with credentials from request body (real-time form values)
     const amazonClient = new AmazonClient({
-      accessKey: settings.accessKey,
-      secretKey: settings.secretKey,
-      partnerTag: settings.partnerTag,
-      region: settings.region
+      accessKey,
+      secretKey,
+      partnerTag,
+      region: region || 'com'
     })
 
     // Fetch product data

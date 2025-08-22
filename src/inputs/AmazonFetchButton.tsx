@@ -3,13 +3,13 @@ import { useCallback, useState } from 'react'
 import { Button, Card, Flex, Stack, Text, useToast } from '@sanity/ui'
 import type { InputProps } from 'sanity'
 import { useClient, useFormValue } from 'sanity'
+import { getApiBaseUrl, getFetchProductPath } from '../lib/config'
 
 export type AmazonFetchButtonInputProps = InputProps & {
   document?: any
 }
 
 export function AmazonFetchButton(props: AmazonFetchButtonInputProps) {
-  const { schemaType, parent } = props as any
   const toast = useToast()
   const [loading, setLoading] = useState(false)
   const client = useClient({ apiVersion: '2025-01-01' })
@@ -43,6 +43,7 @@ export function AmazonFetchButton(props: AmazonFetchButtonInputProps) {
 
   // Get ASIN value from the form context
   const asinValue = useFormValue(['asin']) as string || ''
+  const documentID = useFormValue(['_id']) as string || ''
 
   const handleFetchFromAmazon = useCallback(async () => {
     if (!asinValue) {
@@ -63,22 +64,8 @@ export function AmazonFetchButton(props: AmazonFetchButtonInputProps) {
       return
     }
 
-    // Get document ID from parent context or URL
-    let documentId = null
-    if (parent?._id) {
-      documentId = parent._id
-    } else {
-      // Fallback to URL parsing
-      const currentPath = window.location.pathname
-      const pathParts = currentPath.split(';')
-      if (pathParts.length > 1) {
-        const encodedId = pathParts[1]
-        const decodedId = decodeURIComponent(encodedId)
-        documentId = decodedId.split(',')[0]
-      }
-    }
     
-    if (!documentId) {
+    if (!documentID) {
       toast.push({
         status: 'error',
         title: 'Document Not Found',
@@ -88,8 +75,10 @@ export function AmazonFetchButton(props: AmazonFetchButtonInputProps) {
     }
 
     setLoading(true)
+
     try {
-      const response = await fetch('http://localhost:3001/api/amazon/fetch-product', {
+      const apiUrl = `${getApiBaseUrl()}${getFetchProductPath()}`
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -107,6 +96,7 @@ export function AmazonFetchButton(props: AmazonFetchButtonInputProps) {
       if (result.success) {
         const updateData = {
           title: result.product.title,
+          slug: { current: result.product.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') },
           brand: result.product.brand,
           price: result.product.price,
           salePrice: result.product.salePrice,
@@ -118,7 +108,7 @@ export function AmazonFetchButton(props: AmazonFetchButtonInputProps) {
           lastSyncedAt: result.product.lastSyncedAt
         }
 
-        await client.patch(documentId).set(updateData).commit()
+        await client.patch(documentID).set(updateData).commit()
 
         toast.push({
           status: 'success',
@@ -137,14 +127,11 @@ export function AmazonFetchButton(props: AmazonFetchButtonInputProps) {
     } finally {
       setLoading(false)
     }
-  }, [asinValue, amazonSettings, client, toast, parent])
+  }, [asinValue, amazonSettings, client, toast, documentID])
 
   return (
     <Card padding={3} tone="primary" radius={2} shadow={1}>
       <Stack space={3}>
-        <Text size={1} muted>{schemaType.title || 'Fetch from Amazon'}</Text>
-        
-        
         <Flex gap={2}>
           <Button
             text="Fetch from Amazon"

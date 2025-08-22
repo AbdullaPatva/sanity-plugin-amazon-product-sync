@@ -1,8 +1,8 @@
-import * as React from 'react'
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import {Button, Card, Flex, Stack, Text, useToast} from '@sanity/ui'
 import type {InputProps} from 'sanity'
-import {useClient} from 'sanity'
+import {useFormValue} from 'sanity'
+import {getApiBaseUrl, getTestConnectionPath} from '../lib/config'
 
 export type SettingsActionsInputProps = InputProps & {
   // document is available on props in Studio; typing as any for plugin portability
@@ -10,72 +10,28 @@ export type SettingsActionsInputProps = InputProps & {
 }
 
 export function AmazonSettingsActions(props: SettingsActionsInputProps) {
-  const {schemaType, document} = props as any
   const toast = useToast()
   const [loading, setLoading] = useState(false)
-  const client = useClient({apiVersion: '2025-01-01'})
   
-  // State to store the fetched document data
-  const [documentData, setDocumentData] = useState<any>({})
-  const [isLoadingData, setIsLoadingData] = useState(true)
+  // Real-time form values
+  const accessKey = useFormValue(['accessKey']) as string
+  const secretKey = useFormValue(['secretKey']) as string
+  const partnerTag = useFormValue(['partnerTag']) as string
+  const asinNumber = useFormValue(['asinNumber']) as string
+  const region = useFormValue(['region']) as string
 
-  // Fetch the current document data using the Sanity client
-  useEffect(() => {
-    const fetchDocumentData = async () => {
-      try {
-        // Get the current document ID from the URL
-        const currentPath = window.location.pathname
-        // Extract document ID from URL like /desk/amazon.settings;amazon-settings
-        const pathParts = currentPath.split(';')
-        let documentId = 'amazon-settings' // default singleton ID
-        
-        if (pathParts.length > 1) {
-          documentId = pathParts[1]
-        }
-        
-        // Fetch the document data
-        const query = `*[_type == "amazon.settings" && _id == $id][0]{
-          region,
-          accessKey,
-          secretKey,
-          partnerTag,
-          asinNumber,
-          cacheHours
-        }`
-        
-        const data = await client.fetch(query, {id: documentId})
-        
-        if (data) {
-          setDocumentData(data)
-        }
-      } catch {
-        // Silently handle errors
-      } finally {
-        setIsLoadingData(false)
-      }
-    }
-
-    fetchDocumentData()
-  }, [client])
-
-
-
-  const asinNumber: string | undefined = documentData?.asinNumber
-  const hasCredentials = documentData?.accessKey && documentData?.secretKey && documentData?.partnerTag
-
-
+  const hasCredentials = Boolean(accessKey && secretKey && partnerTag && asinNumber)
 
   return (
     <Card padding={3} tone="primary" radius={2} shadow={1}>
       <Stack space={3}>
-        <Text size={1} muted>{schemaType.title || 'Actions'}</Text>
         <Flex gap={2}>
           <Button
             text="Test API Connection"
             tone="positive"
-            disabled={isLoadingData || loading}
+            disabled={loading || !hasCredentials}
             onClick={async () => {
-              if (!documentData?.accessKey || !documentData?.secretKey || !documentData?.partnerTag || !documentData?.asinNumber) {
+              if (!accessKey || !secretKey || !partnerTag || !asinNumber) {
                 toast.push({
                   status: 'warning',
                   title: 'Missing Credentials',
@@ -86,13 +42,14 @@ export function AmazonSettingsActions(props: SettingsActionsInputProps) {
               
               setLoading(true)
               try {
-                const response = await fetch('http://localhost:3001/api/amazon/test-connection', {
+                const apiUrl = `${getApiBaseUrl()}${getTestConnectionPath()}`
+                const response = await fetch(apiUrl, {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
                   },
                   body: JSON.stringify({
-                    testAsin: documentData.asinNumber
+                    testAsin: asinNumber
                   })
                 })
 
@@ -122,50 +79,39 @@ export function AmazonSettingsActions(props: SettingsActionsInputProps) {
                 setLoading(false)
               }
             }}
+            loading={loading}
           />
           
           <Button
             text="Debug Document"
             tone="caution"
-            disabled={isLoadingData}
+            disabled={loading}
             onClick={() => {
-              console.log('=== DEBUG DOCUMENT STATE ===')
-              console.log('Document:', document)
-              console.log('DocumentData:', documentData)
-              console.log('Has Credentials:', hasCredentials)
-              console.log('ASIN Number:', asinNumber)
-              console.log('Is Loading Data:', isLoadingData)
-              console.log('Current URL:', window.location.pathname)
-              console.log('========================')
+              const debugInfo = {
+                accessKey: accessKey ? `${accessKey.substring(0, 8)}...` : 'Not set',
+                secretKey: secretKey ? `${secretKey.substring(0, 8)}...` : 'Not set',
+                partnerTag: partnerTag || 'Not set',
+                asinNumber: asinNumber || 'Not set',
+                region: region || 'Not set',
+                hasCredentials
+              }
+              
+              console.log('Amazon Settings Debug Info:', debugInfo)
               
               toast.push({
                 status: 'info',
-                title: 'Document State Logged',
-                description: 'Check browser console for detailed document information'
+                title: 'Debug Info Logged',
+                description: 'Check browser console for details'
               })
             }}
           />
         </Flex>
-        <Text size={1} muted>
-          {isLoadingData 
-            ? 'Loading document data...'
-            : !hasCredentials 
-            ? 'Fill in API credentials first, then provide a test ASIN to test the connection.'
-            : !asinNumber 
-            ? 'Provide a test ASIN number to test the API connection.'
-            : 'Use these buttons to test your API credentials and debug document state.'
-          }
+        <Text size={1}>
+          Please make sure to "Publish" the document incase you have modified the Access Key, Secret Key, or Partner Tag.
         </Text>
-        
-        {isLoadingData && (
+        {hasCredentials && (
           <Text size={1} muted>
-            ⏳ Loading document data from Sanity...
-          </Text>
-        )}
-        
-        {!isLoadingData && hasCredentials && asinNumber && (
-          <Text size={1} muted>
-            ✅ Ready to test API connection with {documentData.region || 'com'} region
+            ✅ Ready to test API connection with {asinNumber}
           </Text>
         )}
       </Stack>

@@ -1,11 +1,8 @@
 import {definePlugin} from 'sanity'
 import {amazonSettingsSchema} from './schemas/amazonSettings'
 import {amazonProductSchema} from './schemas/amazonProduct'
-import {amazonAsinType} from './schemas/amazonAsin'
 import {amazonProductBlock} from './schemas/amazonProductBlock'
 import {amazonFetchButtonSchema} from './schemas/amazonFetchButton'
-import {AmazonAsinInput} from './inputs/AmazonAsinInput'
-
 
 /**
  * Configuration options for the Amazon Products plugin
@@ -23,18 +20,9 @@ export interface AmazonPluginOptions {
 export const amazonProductsPlugin = definePlugin<AmazonPluginOptions | void>((opts: AmazonPluginOptions | void) => {
   const toolName = opts?.toolName ?? 'amazon'
   return {
-    name: 'sanity-plugin-amazon-products',
+    name: 'sanity-plugin-amazon-product-sync',
     schema: {
-      types: [amazonSettingsSchema, amazonProductSchema, amazonAsinType, amazonProductBlock, amazonFetchButtonSchema],
-    },
-    form: {
-      renderInput(props: any, next: any) {
-        if (props.schemaType.name === 'amazon.asin') {
-          return AmazonAsinInput(props)
-        }
-        // amazonFetchButton is handled by components.input in its schema
-        return next(props)
-      },
+      types: [amazonSettingsSchema, amazonProductSchema, amazonProductBlock, amazonFetchButtonSchema],
     },
   }
 })

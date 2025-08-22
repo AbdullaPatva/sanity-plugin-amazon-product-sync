@@ -5,26 +5,20 @@ A comprehensive Sanity Studio plugin for fetching and managing Amazon products u
 ## 🚀 Features
 
 - **Amazon Settings Management**: Configure PA-API credentials with a dedicated settings singleton
+- **Real-time Form Validation**: Instant feedback and button state updates using `useFormValue`
 - **Product Document Management**: Create multiple Amazon product documents with auto-fetching
-- **Real-time Product Fetching**: "Fetch from Amazon" button to auto-populate product data
-- **ASIN Input Component**: Custom input with validation and fetch functionality
-- **Amazon Products Tool**: Simple tool for testing and creating products
+- **Fetch from Amazon Button**: Dedicated button component for product data retrieval
 - **Multi-region Support**: US, UK, DE, FR, IT, ES, CA, AU, JP, IN marketplaces
-- **Comprehensive Product Data**: Title, brand, pricing, images, features, and more
+- **Streamlined Product Data**: Essential fields including title, brand, pricing, images, and more
 - **TypeScript Support**: Full type safety throughout the plugin
 - **Modern Sanity v4**: Built for the latest Sanity Studio architecture
+- **Secure Configuration**: Environment variable-based API endpoint configuration
 
 *Amazon Product Sync plugin overview in Sanity Studio*
 
-![Plugin Overview](screenshots/API-settings.png)
-
 *API Settings:* [https://share.cleanshot.com/sYc88tRMBvHPvsjvt9YT](https://share.cleanshot.com/sYc88tRMBvHPvsjvt9YT)
 
-![Plugin Overview](screenshots/Product-display-settings.png)
-
 *Product Fields Display Settings:* [https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6](https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6)
-
-![Plugin Overview](screenshots/Test-Connection.png)
 
 *Test Connection and Debug Actions:* [https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6](https://share.cleanshot.com/Nrtl8RpdhgJrSr7Lj0j6)
 
@@ -126,6 +120,33 @@ export default defineConfig({
 ## 🌐 Frontend Integration
 
 The plugin requires server-side API routes to handle Amazon PA-API calls due to CORS restrictions and security requirements.
+
+### Environment Variables
+
+**CRITICAL**: You must set up these environment variables in your Sanity Studio root `.env.local` file:
+
+```bash
+# .env.local (in Sanity Studio root)
+SANITY_STUDIO_AMAZON_API_URL=http://localhost:3001
+SANITY_STUDIO_AMAZON_TEST_CONNECTION_PATH=/api/amazon/test-connection
+SANITY_STUDIO_AMAZON_FETCH_PRODUCT_PATH=/api/amazon/fetch-product
+```
+
+**Important Notes:**
+- These environment variables are **MANDATORY** - the plugin will throw errors if they're missing
+- The API server URL should point to your Next.js/Express server that handles Amazon API calls
+- The paths should match your server-side API route endpoints
+- Environment variables must be prefixed with `SANITY_STUDIO_` to be accessible in Sanity Studio
+- **NEW**: The plugin now validates environment variables at startup and provides clear error messages
+
+### Configuration System
+
+The plugin now includes a centralized configuration system (`src/lib/config.ts`) that:
+
+- **Validates environment variables** at startup
+- **Provides clear error messages** for missing or invalid configurations
+- **Ensures secure endpoint configuration** without hardcoded URLs
+- **Supports flexible API server setups** for different environments
 
 ### Required API Routes
 
@@ -894,18 +915,20 @@ npm run dev
 4. Navigate to the **"Actions"** tab
 5. Click **"Fetch from Amazon"** button
 6. The document will be auto-populated with:
-   - Product title
+   - Product title (with auto-generated slug)
    - Brand name
    - Pricing information
-   - Product image (primary large)
-   - Feature list
-   - Amazon URL
+   - Primary product image
+   - Product description
+   - Product type and status
+   - Amazon permalink
    - Last sync timestamp
 
 7. Review and edit the data as needed
 8. Click **"Publish"** when ready
 
-![Product Creation](screenshots/product-creation.png)
+**NEW**: Product titles now automatically generate URL-friendly slugs!
+
 
 [https://share.cleanshot.com/n2tnCdSDwsW11cwYH7dq](https://share.cleanshot.com/n2tnCdSDwsW11cwYH7dq)
 
@@ -935,10 +958,11 @@ You can also manually enter product information without fetching from Amazon. Al
 - `showCtaLink` - Show/hide CTA link
 
 **Actions:**
-- "Test API Connection" - Verify credentials
-- "Debug Document" - View document state
+- "Test API Connection" - Verify credentials with real-time form validation
+- "Debug Document" - View document state and form values
 
-![Settings Actions](screenshots/Test-Connection.png)
+**NEW**: Real-time form validation using `useFormValue` - buttons enable/disable instantly as you type!
+
 
 [https://share.cleanshot.com/P2LbmkdNCJcwJFf14CHC](https://share.cleanshot.com/P2LbmkdNCJcwJFf14CHC)
 
@@ -949,24 +973,84 @@ You can also manually enter product information without fetching from Amazon. Al
 **Product Information:**
 - `asin` - Amazon Standard Identification Number
 - `title` - Product title
+- `slug` - Auto-generated URL-friendly slug from title
 - `brand` - Brand/manufacturer name
-- `url` - Direct Amazon product URL
-- `features` - Array of product features
+- `permalink` - Direct Amazon product URL
+- `shortDescription` - Product description (HTML stripped)
+- `type` - Product type: 'simple', 'variable', 'grouped', 'external'
+- `featured` - Featured product status
+- `sku` - Stock keeping unit
 
 **Pricing:**
-- `price` - Current display price
-- `salePrice` - Sale price (if available)
-- `currency` - Price currency (USD, EUR, etc.)
-- `listPrice` - Original list price
+- `regularPrice` - Regular price
+- `salePrice` - Sale price (if on sale)
+- `price` - Current selling price
 
-**Assets:**
-- `images` - Array of product images with URL, width, height
+**Media & Ratings:**
+- `primaryImage` - Primary product image URL
+- `averageRating` - Average customer rating (0-5)
+- `ratingCount` - Number of customer ratings
+- `stockStatus` - Stock status: 'instock', 'outofstock', 'onbackorder'
 
 **Metadata:**
 - `lastSyncedAt` - Timestamp of last Amazon sync
 
 **Actions:**
 - "Fetch from Amazon" - Auto-populate from Amazon API
+
+## 🆕 Recent Improvements (Latest Update)
+
+### ✨ What's New
+
+- **Real-time Form Validation**: Settings now use `useFormValue` for instant feedback and button state updates
+- **Streamlined Schema**: Simplified product schema with essential fields only
+- **Component Consolidation**: Removed redundant components for cleaner architecture
+- **Secure Configuration**: Environment variable-based API endpoint configuration
+- **Auto-slug Generation**: Automatic slug generation from product titles
+
+### 🔧 Key Changes Made
+
+1. **AmazonSettingsActions.tsx**: 
+   - Replaced complex state management with real-time form values
+   - Uses `useFormValue` hooks for immediate validation
+   - Buttons enable/disable in real-time as you type
+
+2. **Schema Simplification**:
+   - Removed complex fields like `description` (Portable Text)
+   - Added essential fields like `slug`, `type`, `featured`, `stockStatus`
+   - Streamlined pricing fields for better usability
+
+3. **Component Cleanup**:
+   - Removed `AmazonAsinInput.tsx` (redundant functionality)
+   - Removed `AmazonProductFetch.tsx` (unused component)
+   - Kept `AmazonFetchButton.tsx` as the primary fetch component
+
+4. **Configuration System**:
+   - Added `src/lib/config.ts` for centralized environment variable handling
+   - Replaced hardcoded URLs with configurable endpoints
+   - Added validation for required environment variables
+
+## 🏗️ Component Architecture
+
+### Current Components
+
+The plugin now uses a streamlined component architecture:
+
+1. **AmazonSettingsActions.tsx** - Settings actions with real-time validation
+2. **AmazonFetchButton.tsx** - Primary fetch component for product documents
+3. **Configuration System** - Centralized environment variable handling
+
+### Removed Components
+
+The following components were removed for cleaner architecture:
+- ❌ **AmazonAsinInput.tsx** - Redundant functionality
+- ❌ **AmazonProductFetch.tsx** - Unused component
+
+### Component Responsibilities
+
+- **AmazonSettingsActions**: Handles API testing and debugging with real-time form values
+- **AmazonFetchButton**: Fetches product data and updates documents
+- **Config System**: Manages environment variables and API endpoints
 
 ## 🛠️ Development
 

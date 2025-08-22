@@ -8,7 +8,7 @@ export const amazonProductSchema = defineType({
     defineField({
       name: 'asin',
       title: 'ASIN',
-      type: 'amazon.asin',
+      type: 'string',
       validation: (r: any) => r.required(),
     }),
     defineField({
@@ -20,6 +20,15 @@ export const amazonProductSchema = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 96,
+      },
     }),
     defineField({
       name: 'url',
